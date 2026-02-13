@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kavin ❤️ My Valentine</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#ff9a9e,#ff4d6d,#1a0010);
+    color:white;
+}
+
+/* soft glowing background particles */
+.sparkle{
+    position:fixed;
+    width:4px;
+    height:4px;
+    background:white;
+    border-radius:50%;
+    opacity:.7;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh)}
+    to{transform:translateY(-10vh)}
+}
+
+/* cinematic card */
+.card{
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,.1);
+    padding:45px 60px;
+    border-radius:30px;
+    text-align:center;
+    box-shadow:0 0 60px rgba(255,77,109,.5);
+    z-index:2;
+    max-width:380px;
+    animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(.8)}
+    to{opacity:1; transform:scale(1)}
+}
+
+h1{
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+/* buttons */
+button{
+    padding:12px 28px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    margin:10px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+#yes{
+    background:#ff4d6d;
+    color:white;
+    box-shadow:0 0 20px #ff4d6d;
+}
+
+#yes:hover{
+    transform:scale(1.2);
+}
+
+#no{
+    background:#444;
+    color:white;
+    position:absolute;
+}
+
+/* text */
+#message{
+    margin-top:15px;
+    font-size:22px;
+    min-height:35px;
+}
+
+/* ring */
+#ring{
+    font-size:90px;
+    display:none;
+    animation:ringPop 1.2s ease forwards;
+}
+
+@keyframes ringPop{
+    0%{transform:scale(0) rotate(-180deg);}
+    70%{transform:scale(1.4)}
+    100%{transform:scale(1)}
+}
+
+/* photo */
+#photo{
+    width:220px;
+    margin-top:15px;
+    border-radius:20px;
+    display:none;
+    animation:fadeIn 2s ease;
+}
+
+/* hearts rain */
+.heart{
+    position:fixed;
+    top:-10px;
+    animation:fall 5s linear infinite;
+}
+
+@keyframes fall{
+    to{transform:translateY(110vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>Kavin… will you be my Valentine? ❤️</h1>
+
+    <button id="yes">Yes 💕</button>
+    <button id="no">No 😜</button>
+
+    <div id="message"></div>
+
+    <div id="ring">💍</div>
+
+    <img id="photo" src="3T7A2256.JPG">
+
+    <audio id="music" src="Song.mp3"></audio>
+
+</div>
+
+<script>
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const msg=document.getElementById("message");
+const ring=document.getElementById("ring");
+const photo=document.getElementById("photo");
+const music=document.getElementById("music");
+
+/* sparkles background */
+for(let i=0;i<60;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(Math.random()*4+3)+"s";
+    document.body.appendChild(s);
+}
+
+/* DRAMATIC NO BUTTON */
+const texts=["No 😜","Never 😆","Catch me 😂","Try harder 😝"];
+let t=0;
+
+no.addEventListener("mouseover",()=>{
+    const x=Math.random()*(window.innerWidth-100);
+    const y=Math.random()*(window.innerHeight-50);
+    no.style.left=x+"px";
+    no.style.top=y+"px";
+    no.style.transform="scale("+(Math.random()*0.4+0.6)+")";
+    t=(t+1)%texts.length;
+    no.innerText=texts[t];
+});
+
+/* typing text */
+function typeText(text){
+    msg.textContent="";
+    let i=0;
+    const inter=setInterval(()=>{
+        msg.textContent+=text[i];
+        i++;
+        if(i>=text.length) clearInterval(inter);
+    },40);
+}
+
+/* hearts */
+function hearts(){
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(Math.random()*20+15)+"px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),5000);
+    },250);
+}
+
+/* YES CLICK — cinematic sequence */
+yes.addEventListener("click",()=>{
+
+    yes.style.display="none";
+    no.style.display="none";
+
+    music.play();
+
+    typeText("From the moment I met you... ❤️");
+
+    setTimeout(()=>typeText("You became my everything..."),2500);
+    setTimeout(()=>typeText("Kavin, I love you forever..."),5000);
+
+    setTimeout(()=>{
+        ring.style.display="block";
+        typeText("Will you be mine forever?");
+        hearts();
+    },7500);
+
+    setTimeout(()=>{
+        photo.style.display="block";
+    },9000);
+});
+</script>
+
+</body>
+</html>
